@@ -1,0 +1,316 @@
+body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .game-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        max-width: 600px;
+        width: 100%;
+    }
+
+    .game-title {
+        text-align: center;
+        color: #333;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .game-subtitle {
+        text-align: center;
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+    }
+
+    .player-section {
+        margin-bottom: 25px;
+    }
+
+    .player-label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+    }
+
+    .player-input {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e1e5e9;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+
+    .player-input:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .calculate-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 18px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 30px 0;
+    }
+
+    .calculate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .calculate-btn:active {
+        transform: translateY(0);
+    }
+
+    .results {
+        display: none;
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 25px;
+    }
+
+    .score-display {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .player-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+    }
+
+    .player-score {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+
+    .winner-announcement {
+        text-align: center;
+        padding: 20px;
+        border-radius: 12px;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+
+    .winner {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+
+    .tie {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        color: white;
+    }
+
+    .letter-values {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f1f3f4;
+        border-radius: 12px;
+    }
+
+    .letter-values h3 {
+        color: #333;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+        gap: 8px;
+        text-align: center;
+    }
+
+    .letter-tile {
+        background: white;
+        padding: 8px 4px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #333;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .letter-tile .letter {
+        display: block;
+        font-size: 1rem;
+    }
+
+    .letter-tile .value {
+        font-size: 0.8rem;
+        color: #667eea;
+    }
+
+    @media (max-width: 768px) {
+        .game-container {
+            padding: 25px;
+            margin: 10px;
+        }
+
+        .game-title {
+            font-size: 2rem;
+        }
+
+        .score-display {
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+        }
+    }
+</style>
+    <div class="player-section">
+        <label class="player-label" for="player1">Player 1 Word:</label>
+        <input type="text" id="player1" class="player-input" placeholder="Enter your word..." maxlength="50">
+    </div>
+
+    <div class="player-section">
+        <label class="player-label" for="player2">Player 2 Word:</label>
+        <input type="text" id="player2" class="player-input" placeholder="Enter your word..." maxlength="50">
+    </div>
+
+    <button class="calculate-btn" onclick="calculateScores()">Calculate Scores</button>
+
+    <div id="results" class="results">
+        <div class="score-display">
+            <span class="player-name">Player 1</span>
+            <span id="score1" class="player-score">0</span>
+        </div>
+        <div class="score-display">
+            <span class="player-name">Player 2</span>
+            <span id="score2" class="player-score">0</span>
+        </div>
+        <div id="winner" class="winner-announcement"></div>
+    </div>
+
+    <div class="letter-values">
+        <h3>Letter Values</h3>
+        <div class="values-grid" id="letterValues"></div>
+    </div>
+</div>
+
+<script>
+    // Scrabble letter values (same as your C code)
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const values = [1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3,
+                   1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10];
+
+    // Initialize letter values display
+    function initializeLetterValues() {
+        const container = document.getElementById('letterValues');
+        for (let i = 0; i < letters.length; i++) {
+            const tile = document.createElement('div');
+            tile.className = 'letter-tile';
+            tile.innerHTML = `
+                <span class="letter">${letters[i]}</span>
+                <span class="value">${values[i]}</span>
+            `;
+            container.appendChild(tile);
+        }
+    }
+
+    // Calculate word score (equivalent to your C logic)
+    function calculateWordScore(word) {
+        let score = 0;
+        const upperWord = word.toUpperCase();
+        
+        for (let i = 0; i < upperWord.length; i++) {
+            const char = upperWord[i];
+            // Only count alphabetic characters
+            if (char >= 'A' && char <= 'Z') {
+                const letterIndex = letters.indexOf(char);
+                if (letterIndex !== -1) {
+                    score += values[letterIndex];
+                }
+            }
+        }
+        
+        return score;
+    }
+
+    // Main calculation function (equivalent to your main function logic)
+    function calculateScores() {
+        const input1 = document.getElementById('player1').value.trim();
+        const input2 = document.getElementById('player2').value.trim();
+
+        // Validate inputs
+        if (!input1 || !input2) {
+            alert('Please enter words for both players!');
+            return;
+        }
+
+        // Calculate scores
+        const score1 = calculateWordScore(input1);
+        const score2 = calculateWordScore(input2);
+
+        // Display results
+        document.getElementById('score1').textContent = score1;
+        document.getElementById('score2').textContent = score2;
+
+        // Determine winner (same logic as your C code)
+        const winnerElement = document.getElementById('winner');
+        if (score1 > score2) {
+            winnerElement.textContent = '🎉 Player 1 Wins!';
+            winnerElement.className = 'winner-announcement winner';
+        } else if (score1 < score2) {
+            winnerElement.textContent = '🎉 Player 2 Wins!';
+            winnerElement.className = 'winner-announcement winner';
+        } else {
+            winnerElement.textContent = '🤝 It\'s a Tie!';
+            winnerElement.className = 'winner-announcement tie';
+        }
+
+        // Show results
+        document.getElementById('results').style.display = 'block';
+        
+        // Smooth scroll to results
+        document.getElementById('results').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+        });
+    }
+
+    // Allow Enter key to calculate scores
+    document.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            calculateScores();
+        }
+    });
+
+    // Initialize the letter values display when page loads
+    window.onload = function() {
+        initializeLetterValues();
+    };
+</script>
